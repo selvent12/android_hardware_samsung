@@ -171,7 +171,14 @@ ndk::ScopedAStatus Vibrator::on(int32_t timeoutMs,
     }
 
 #ifdef VIBRATOR_SUPPORTS_DURATION_AMPLITUDE_CONTROL
-    timeoutMs *= mDurationAmplitude;
+    // ERM motors need time to spin up: shortening already short pulses
+    // (touch feedback) makes them barely noticeable. Only scale longer
+    // vibrations and give short ones a minimum on-time.
+    if (timeoutMs > SHORT_PULSE_MAX_MS) {
+        timeoutMs *= mDurationAmplitude;
+    } else if (timeoutMs < SHORT_PULSE_MIN_MS) {
+        timeoutMs = SHORT_PULSE_MIN_MS;
+    }
 #endif
 
     status = activate(timeoutMs);

@@ -20,6 +20,11 @@
 #define DURATION_AMPLITUDE_LIGHT 0.65
 #define DURATION_AMPLITUDE_MEDIUM 0.8
 #define DURATION_AMPLITUDE_STRONG 1
+
+// Pulses up to this length are not shortened by the duration amplitude
+#define SHORT_PULSE_MAX_MS 100
+// Minimum on-time so ERM motors produce a noticeable pulse
+#define SHORT_PULSE_MIN_MS 30
 #endif
 
 #define VIBRATOR_TIMEOUT_PATH "/sys/class/timed_output/vibrator/enable"
